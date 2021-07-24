@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -10,10 +11,21 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          '이상형 월드컵',
-          style: TextStyle(
-              color: Colors.deepPurple.shade300, fontWeight: FontWeight.bold),
+        title: Row(
+          children: [
+            SizedBox(width: 60),
+            Text(
+              '이상형 월드컵',
+              style: TextStyle(
+                  color: Colors.deepPurple.shade300,
+                  fontWeight: FontWeight.bold),
+            ),
+            SizedBox(width: 10),
+            SizedBox(
+                width: 30,
+                height: 30,
+                child: SvgPicture.asset('assets/icon/cup.svg')),
+          ],
         ),
         //leading:
         //Icon(Icons.arrow_back_ios_new, color: Colors.deepPurple.shade300),
@@ -24,9 +36,9 @@ class _HomeState extends State<Home> {
         children: [
           Column(
             children: [
-              _categoryList('연예인'),
-              _categoryList('음식'),
-              _categoryList('게임'),
+              _categoryList1('연예인'),
+              _categoryList2('여행'),
+              _categoryList3('음식'),
             ],
           )
         ],
@@ -34,7 +46,7 @@ class _HomeState extends State<Home> {
     );
   }
 
-  Widget _categoryList(String category) {
+  Widget _categoryList1(String category) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -59,6 +71,66 @@ class _HomeState extends State<Home> {
                   '#드라마', '#영화배우', '/actor'),
               _worldcupBox('assets/entertainer/idol/youngji.jpg', '여자 연예인 월드컵',
                   '#고민중', '#생각중', '/actor'),
+            ],
+          ),
+        ),
+        SizedBox(height: 30),
+      ],
+    );
+  }
+
+  Widget _categoryList2(String category) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Text(
+            category,
+            style: TextStyle(
+                fontWeight: FontWeight.w900,
+                fontSize: 18,
+                color: Colors.black54),
+          ),
+        ),
+        Container(
+          height: 250,
+          child: ListView(
+            scrollDirection: Axis.horizontal,
+            children: [
+              _worldcupBox('assets/trip/most/일본.jpg', '내가 가고 싶은 나라는 어디?',
+                  '#얼른 가고 싶다', '#코로나 딱 대', '/trip_most'),
+              _worldcupBox('assets/trip/sty/익스트림.jpg', '지금 당장 끌리는 여행 !',
+                  '#번지점프', '#드라이브', '/trip_sty'),
+            ],
+          ),
+        ),
+        SizedBox(height: 30),
+      ],
+    );
+  }
+
+  Widget _categoryList3(String category) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Text(
+            category,
+            style: TextStyle(
+                fontWeight: FontWeight.w900,
+                fontSize: 18,
+                color: Colors.black54),
+          ),
+        ),
+        Container(
+          height: 250,
+          child: ListView(
+            scrollDirection: Axis.horizontal,
+            children: [
+              _worldcupBox('assets/food/most/스테이크.jpg', '메뉴는 너로 정했다 월드컵',
+                  '#국밥충', '#메뉴 선택장애', '/food_most'),
             ],
           ),
         ),

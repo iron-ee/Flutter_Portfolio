@@ -29,4 +29,8 @@ flutter:
     - assets/logo/
     - assets/entertainer/idol/
     - assets/entertainer/actor/
+    - assets/icon/
+    - assets/food/most/
+    - assets/trip/most/
+    - assets/trip/sty/
 

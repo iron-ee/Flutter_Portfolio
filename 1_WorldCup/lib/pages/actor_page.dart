@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_worldcup_app/item/item.dart';
 
 class ActorPage extends StatefulWidget {
@@ -11,6 +12,7 @@ class ActorPage extends StatefulWidget {
 class _ActorPage extends State<ActorPage> with TickerProviderStateMixin {
   double opacity1 = 1;
   double opacity2 = 1;
+  double opacity3 = 0;
   AnimationController? _animationController1;
   AnimationController? _animationController2;
 
@@ -25,11 +27,9 @@ class _ActorPage extends State<ActorPage> with TickerProviderStateMixin {
 
   String _imgUrl1 = '';
   String _name1 = '';
-  String _group1 = '';
 
   String _imgUrl2 = '';
   String _name2 = '';
-  String _group2 = '';
 
   int cycle16 = 0;
   int cycle8 = 0;
@@ -37,6 +37,8 @@ class _ActorPage extends State<ActorPage> with TickerProviderStateMixin {
   int cycle2 = 0;
 
   int _titleNum = 16;
+
+  String winnerName = '';
 
   @override
   void initState() {
@@ -49,7 +51,7 @@ class _ActorPage extends State<ActorPage> with TickerProviderStateMixin {
 
     _transAnimation1 = Tween<Offset>(begin: Offset(0, 0), end: Offset(0, 150))
         .animate(_animationController1!);
-    _transAnimation2 = Tween<Offset>(begin: Offset(0, 0), end: Offset(0, -150))
+    _transAnimation2 = Tween<Offset>(begin: Offset(0, 0), end: Offset(0, -180))
         .animate(_animationController2!);
 
     _scaleAnimation1 =
@@ -85,22 +87,134 @@ class _ActorPage extends State<ActorPage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(_titleNum == 2
-            ? '대망의 결승 !'
-            : '여자 배우 이상형 $_titleNum강 (${current + 1} / ${_titleNum ~/ 2})'),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(_titleNum == 1
+                ? '나의 여자 배우 이상형은  '
+                : _titleNum == 2
+                    ? '대망의 결승 !!!!!'
+                    : '여자 배우 이상형 $_titleNum강 (${current + 1} / ${_titleNum ~/ 2})'),
+            SizedBox(
+              width: _titleNum == 1 ? 35 : 0,
+              height: _titleNum == 1 ? 35 : 0,
+              child: SvgPicture.asset(
+                'assets/icon/newlyweds.svg',
+              ),
+            ),
+          ],
+        ),
         centerTitle: true,
         backgroundColor: Colors.deepPurple.shade100,
       ),
-      body: Column(
+      body: Stack(
         children: [
-          SizedBox(height: 5),
-          _topClass(context),
-          SizedBox(height: 5),
-          _bottomClass(context),
+          _winnerEnding(),
+          Column(
+            children: [
+              SizedBox(height: 5),
+              _topClass(context),
+              SizedBox(height: 5),
+              _bottomClass(context),
+            ],
+          ),
         ],
+      ),
+    );
+  }
+
+  Widget _winnerEnding() {
+    return AnimatedOpacity(
+      opacity: opacity3,
+      duration: Duration(milliseconds: 500),
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 20),
+        child: Align(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: 35,
+                    height: 35,
+                    child: SvgPicture.asset(
+                      'assets/icon/thumbs-up.svg',
+                    ),
+                  ),
+                  SizedBox(width: 5),
+                  Text(
+                    ' 역시 안목이 좋으시군요 ',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(width: 5),
+                  SizedBox(
+                    width: 35,
+                    height: 35,
+                    child: SvgPicture.asset(
+                      'assets/icon/thumbs-up.svg',
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 5),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: 35,
+                    height: 35,
+                    child: SvgPicture.asset(
+                      'assets/icon/confetti.svg',
+                    ),
+                  ),
+                  SizedBox(width: 5),
+                  Text(
+                    '당신의 이상형은',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(width: 10),
+                  Stack(
+                    children: [
+                      Text(
+                        winnerName,
+                        style: TextStyle(
+                          fontSize: 23,
+                          foreground: Paint()
+                            ..style = PaintingStyle.stroke
+                            ..strokeWidth = 4
+                            ..color = Colors.deepPurple.shade200,
+                        ),
+                      ),
+                      Text(
+                        winnerName,
+                        style: TextStyle(fontSize: 23, color: Colors.white),
+                      ),
+                    ],
+                  ),
+                  SizedBox(width: 10),
+                  Text(
+                    '입니다',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(width: 5),
+                  SizedBox(
+                    width: 35,
+                    height: 35,
+                    child: SvgPicture.asset(
+                      'assets/icon/fireworks.svg',
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -192,8 +306,8 @@ class _ActorPage extends State<ActorPage> with TickerProviderStateMixin {
                   current = 0;
                   _titleNum = 2;
                   _animationController1!.reset();
-                  opacity1 = 1;
                   opacity2 = 1;
+                  opacity1 = 1;
                 });
               });
             } else {
@@ -211,8 +325,15 @@ class _ActorPage extends State<ActorPage> with TickerProviderStateMixin {
             }
           });
         } else if (cycle4 == 3 && cycle2 < 1) {
+          setState(() {
+            winnerName = actors[current].name;
+            _titleNum = 1;
+            opacity2 = 0;
+            opacity3 = 1;
+            _animationController1!.forward();
+            cycle2 = 2;
+          });
           print('우승');
-          Navigator.of(context).pushReplacementNamed('/test');
         }
       },
       child: _topBox(context),
@@ -389,8 +510,15 @@ class _ActorPage extends State<ActorPage> with TickerProviderStateMixin {
             }
           });
         } else if (cycle4 == 3 && cycle2 < 1) {
+          setState(() {
+            winnerName = actors[current + 1].name;
+            _titleNum = 1;
+            opacity1 = 0;
+            opacity3 = 1;
+            _animationController2!.forward();
+            cycle2 = 2;
+          });
           print('우승');
-          Navigator.of(context).pushReplacementNamed('/test');
         }
       },
       child: _bottomBox(context),
