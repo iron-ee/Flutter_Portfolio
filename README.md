@@ -6,6 +6,11 @@
 
 간단한 CRUD 처리를 위한 RESTful 방식의 Spring 서버구현
 
+- SpringBoot
+- JPA
+- H2 데이터베이스 사용
+- GetX 라이브러리 사용 (상태관리)
+
 </br>
 
 ### API 문서
